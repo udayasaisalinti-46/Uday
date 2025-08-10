@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Navbar Website</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f8f8f8;
+  }
+  nav {
+    background: #333;
+    padding: 0.5rem;
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+  }
+  nav ul li {
+    position: relative;
+  }
+  nav ul li a {
+    color: white;
+    padding: 0.75rem 1rem;
+    display: block;
+    text-decoration: none;
+  }
+  nav ul li a:hover {
+    background: #555;
+  }
+  .dropdown {
+    display: none;
+    position: absolute;
+    background: #444;
+    min-width: 160px;
+    top: 100%;
+    left: 0;
+    z-index: 1;
+  }
+  .dropdown a {
+    padding: 0.5rem 1rem;
+  }
+  nav ul li:hover .dropdown {
+    display: block;
+  }
+  .content-section {
+    display: none;
+    padding: 1rem;
+    background: white;
+    margin: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+  }
+  input[type="text"], select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  button {
+    padding: 0.5rem 1rem;
+    background: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  button:hover {
+    background: #555;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  table, th, td {
+    border: 1px solid #ccc;
+  }
+  th, td {
+    padding: 0.5rem;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <ul>
+    <li><a href="#" onclick="showSection('home')">Home</a></li>
+    <li>
+      <a href="#">Login</a>
+      <div class="dropdown">
+        <a href="#" onclick="showSection('studentLogin')">Student Login</a>
+        <a href="#" onclick="showSection('adminLogin')">Admin Login</a>
+      </div>
+    </li>
+    <li><a href="#" onclick="showSection('registration')">Registration</a></li>
+    <li><a href="#" onclick="showSection('test')">Test</a></li>
+    <li><a href="#" onclick="showSection('result')">Result</a></li>
+  </ul>
+</nav>
+
+<!-- Home -->
+<div id="home" class="content-section" style="display:block;">
+  <h2>Welcome to Our Website</h2>
+  <p>This is the home page.</p>
+</div>
+
+<!-- Student Login -->
+<div id="studentLogin" class="content-section">
+  <h2>Student Login</h2>
+  <div class="form-group">
+    <label>Roll Number:</label>
+    <input type="text" id="rollNumber" placeholder="Enter Roll Number">
+  </div>
+  <button onclick="searchStudent()">Submit</button>
+
+  <table id="studentTable">
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>Course Code</th>
+        <th>Course Name</th>
+        <th>Grade Points</th>
+        <th>Credits</th>
+        <th>SGPA</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td colspan="6">No record found</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Admin Login -->
+<div id="adminLogin" class="content-section">
+  <h2>Admin Login</h2>
+  <div class="form-group">
+    <label>Username:</label>
+    <input type="text">
+  </div>
+  <div class="form-group">
+    <label>Password:</label>
+    <input type="password">
+  </div>
+  <button>Login</button>
+</div>
+
+<!-- Registration (Blank) -->
+<div id="registration" class="content-section"></div>
+
+<!-- Test -->
+<div id="test" class="content-section">
+  <h2>HTML/CSS Test</h2>
+  <div class="form-group">
+    <label>Course Code:</label>
+    <input type="text">
+  </div>
+  <div class="form-group">
+    <label>Course Name:</label>
+    <input type="text">
+  </div>
+  <div class="form-group">
+    <label>Roll Number:</label>
+    <input type="text">
+  </div>
+  <div class="form-group">
+    <label>Year:</label>
+    <input type="text">
+  </div>
+  <div class="form-group">
+    <label>Semester:</label>
+    <input type="text">
+  </div>
+  <div class="form-group">
+    <label>Registration Number:</label>
+    <input type="text">
+  </div>
+
+  <h3>Questions</h3>
+  <p>1. What does HTML stand for?</p>
+  <label><input type="radio" name="q1"> Hyper Text Markup Language</label><br>
+  <label><input type="radio" name="q1"> HighText Machine Language</label><br>
+
+  <p>2. Which CSS property changes text color?</p>
+  <label><input type="radio" name="q2"> font-color</label><br>
+  <label><input type="radio" name="q2"> color</label><br>
+
+  <p>3. Which tag creates a hyperlink?</p>
+  <label><input type="radio" name="q3"> &lt;a&gt;</label><br>
+  <label><input type="radio" name="q3"> &lt;link&gt;</label><br>
+
+  <button>Submit Test</button>
+</div>
+
+<!-- Result -->
+<div id="result" class="content-section">
+</div>
+
+<script>
+const students = {
+  "101": [
+    { sno: 1, code: "CS101", name: "HTML Basics", gp: 9, credits: 3, sgpa: 9.0 },
+    { sno: 2, code: "CS102", name: "CSS Basics", gp: 8, credits: 3, sgpa: 8.5 }
+  ],
+  "102": [
+    { sno: 1, code: "CS201", name: "Advanced HTML", gp: 10, credits: 3, sgpa: 9.5 }
+  ]
+};
+
+function showSection(id) {
+  document.querySelectorAll('.content-section').forEach(sec => sec.style.display = 'none');
+  document.getElementById(id).style.display = 'block';
+}
+
+function searchStudent() {
+  const roll = document.getElementById("rollNumber").value.trim();
+  const data = students[roll];
+  const tbody = document.querySelector("#studentTable tbody");
+
+  if (!data) {
+    tbody.innerHTML = `<tr><td colspan="6">No record found</td></tr>`;
+    return;
+  }
+
+  let rows = "";
+  data.forEach(row => {
+    rows += `<tr>
+      <td>${row.sno}</td>
+      <td>${row.code}</td>
+      <td>${row.name}</td>
+      <td>${row.gp}</td>
+      <td>${row.credits}</td>
+      <td>${row.sgpa}</td>
+    </tr>`;
+  });
+  tbody.innerHTML = rows;
+}
+</script>
+
+</body>
+</html>
