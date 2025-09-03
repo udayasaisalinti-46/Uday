@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Extract Postal Codes</title>
+</head>
+<body>
+  <script>
+    let text = "53 2201 532202 5322 443312l";
+
+    // Regex to match 6 digit postal codes
+    let postalCodes = text.match(/\b\d{6}\b/g);
+
+    console.log(postalCodes); // Output: ["532202"]
+    document.write("Postal codes: " + (postalCodes ? postalCodes.join(", ") : "None found"));
+  </script>
+</body>
+</html>
