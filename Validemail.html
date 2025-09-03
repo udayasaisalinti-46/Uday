@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Email Validation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+    input {
+      padding: 8px;
+      width: 250px;
+    }
+    button {
+      padding: 8px 15px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    .valid {
+      color: green;
+    }
+    .invalid {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <label>Email: </label>
+  <input type="text" id="email" placeholder="Enter your email">
+  <button onclick="validateEmail()">Validate</button>
+  
+  <div id="result"></div>
+
+  <script>
+    function validateEmail() {
+      let email = document.getElementById("email").value;
+      let result = document.getElementById("result");
+
+      // Simple email regex pattern
+      let pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (pattern.test(email)) {
+        result.textContent = "Valid Email ✔";
+        result.className = "valid";
+      } else {
+        result.textContent = "Invalid Email ✘";
+        result.className = "invalid";
+      }
+    }
+  </script>
+</body>
+</html>
