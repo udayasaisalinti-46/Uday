@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Extract Three Digit Numbers</title>
+</head>
+<body>
+  <script>
+    let text = "123 22 33";
+
+    // Regex to match exactly three-digit numbers
+    let threeDigitNumbers = text.match(/\b\d{3}\b/g);
+
+    console.log(threeDigitNumbers); // Output: ["123"]
+    document.write("Three digit numbers: " + (threeDigitNumbers ? threeDigitNumbers.join(", ") : "None found"));
+  </script>
+</body>
+</html>
