@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Email Validation with File Upload</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .correct {
+      color: green;
+    }
+    .incorrect {
+      color: red;
+    }
+    input[type="text"] {
+      width: 300px;
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <h2>Upload a File with Emails</h2>
+  <input type="file" id="fileInput" accept=".txt"><br><br>
+  <p>Total Emails: <span id="totalCount">0</span></p>
+  <p>Correct Emails: <span id="correctCount">0</span></p>
+  <p>Incorrect Emails: <span id="incorrectCount">0</span></p>
+  <div id="emailList"></div>
+
+  <script>
+    function isValidEmail(email) {
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return regex.test(email);
+    }
+    function updateCounts() {
+      const inputs = document.querySelectorAll(".emailInput");
+      let total = inputs.length;
+      let correct = 0;
+      let incorrect = 0;
+      inputs.forEach(input => {
+        if (isValidEmail(input.value.trim())) {
+          correct++;
+          input.classList.remove("incorrect");
+          input.classList.add("correct");
+        } else {
+          incorrect++;
+          input.classList.remove("correct");
+          input.classList.add("incorrect");
+        }
+      });
+      document.getElementById("totalCount").textContent = total;
+      document.getElementById("correctCount").textContent = correct;
+      document.getElementById("incorrectCount").textContent = incorrect;
+    }
+    document.getElementById("fileInput").addEventListener("change", function(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const content = e.target.result;
+        const emails = content.split(/\r?\n/);
+        const emailListDiv = document.getElementById("emailList");
+        emailListDiv.innerHTML = ""; 
+        emails.forEach(email => {
+          if (email.trim() !== "") {
+            const input = document.createElement("input");
+            input.type = "text";
+            input.value = email.trim();
+            input.className = "emailInput";
+            input.addEventListener("input", updateCounts);
+
+            emailListDiv.appendChild(input);
+            emailListDiv.appendChild(document.createElement("br"));
+          }
+        });
+        updateCounts();
+      };
+      reader.readAsText(file);
+    });
+  </script>
+</body>
+</html>
